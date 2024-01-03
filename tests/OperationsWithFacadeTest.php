@@ -1,6 +1,7 @@
 <?php
 
 use HPWebdeveloper\LaravelPayPocket\Facades\LaravelPayPocket;
+use HPWebdeveloper\LaravelPayPocket\Models\WalletsLog;
 use HPWebdeveloper\LaravelPayPocket\Tests\Models\User;
 
 it('can test', function () {
@@ -94,4 +95,44 @@ test('user pay from two wallets', function () {
     expect(LaravelPayPocket::walletBalanceByType($user, 'wallet_2'))->toBeFloat(0.12);
 
     expect(LaravelPayPocket::checkBalance($user))->toBeFloat(0.12);
+});
+
+test('only the choosen wallet will be charged.', function () {
+
+    $user = User::factory()->create();
+
+    $type = 'wallet_1';
+
+    LaravelPayPocket::deposit($user, $type, 234.56);
+    LaravelPayPocket::pay($user, 234.56, [$type]);
+
+    $last = $user->wallets()
+        ->where('type', \App\Enums\WalletEnums::WALLET1)
+        ->first()
+        ->logs()->latest()->first();
+
+    expect($last->value)->toBeFloat(234.56);
+});
+
+test('description can be added during deposit', function () {
+    $user = User::factory()->create();
+
+    $type = 'wallet_2';
+
+    $description = \Illuminate\Support\Str::random();
+    $user->deposit($type, 234.56, $description);
+
+    expect(WalletsLog::where('detail', $description)->exists())->toBe(true);
+});
+
+test('description can be added during payment', function () {
+    $user = User::factory()->create();
+
+    $type = 'wallet_2';
+
+    $description = \Illuminate\Support\Str::random();
+    LaravelPayPocket::deposit($user, $type, 234.56);
+    LaravelPayPocket::pay($user, 234.56, [$type], $description);
+
+    expect(WalletsLog::where('detail', $description)->exists())->toBe(true);
 });

@@ -34,6 +34,9 @@ trait HandlesPayment
              * */
             $useWallet = fn ($wallet) => count($allowedWallets) < 1 || in_array($wallet, $allowedWallets);
 
+            /**
+             * @var BalanceOperation $wallet
+             */
             foreach ($walletsInOrder as $wallet) {
                 if (! $wallet || ! $wallet->hasBalance() || !$useWallet($wallet->type->value)) {
                     continue;

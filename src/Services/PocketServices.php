@@ -32,7 +32,7 @@ class PocketServices
      */
     public function pay($user, $orderValue, array $allowedWallets = [], ?string $detail = null): void
     {
-        return $user->pay($orderValue, $allowedWallets, $detail);
+        $user->pay($orderValue, $allowedWallets, $detail);
     }
 
     /**

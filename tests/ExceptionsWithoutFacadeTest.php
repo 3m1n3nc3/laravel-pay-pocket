@@ -40,7 +40,6 @@ test('deposit two times, the second time to invalid wallet type should throw exc
     $type = 'wallet_invalid';
 
     $user->deposit($type, 100);
-
 })->throws(InvalidWalletTypeException::class);
 
 test('insufficent balance should throw exception', function () {
@@ -52,7 +51,6 @@ test('insufficent balance should throw exception', function () {
     $user->deposit($type, 234.56);
 
     $user->pay(234.57);
-
 })->throws(InsufficientBalanceException::class);
 
 test('User does not have such wallet should throw exception', function () {
@@ -62,5 +60,11 @@ test('User does not have such wallet should throw exception', function () {
     $type = 'wallet_1';
 
     $user->getWalletBalanceByType('wallet_2');
-
 })->throws(WalletNotFoundException::class);
+
+test('allowing a non existent wallet should throw exception during payment', function () {
+
+    $user = User::factory()->create();
+
+    $user->pay(234.56, ['wallet_x']);
+})->throws(InsufficientBalanceException::class);
