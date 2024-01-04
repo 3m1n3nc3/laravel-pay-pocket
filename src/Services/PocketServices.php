@@ -2,6 +2,8 @@
 
 namespace HPWebdeveloper\LaravelPayPocket\Services;
 
+use Illuminate\Database\Eloquent\Model;
+
 class PocketServices
 {
     /**
@@ -14,7 +16,7 @@ class PocketServices
      *
      * @return bool
      */
-    public function deposit($user, string $type, int|float $amount, ?string $notes = null): bool
+    public function deposit(Model $user, string $type, int|float $amount, ?string $notes = null): bool
     {
         return $user->deposit($type, $amount, $notes);
     }
@@ -30,7 +32,7 @@ class PocketServices
      * @return void
      * @throws InsufficientBalanceException
      */
-    public function pay($user, $orderValue, array $allowedWallets = [], ?string $notes = null): void
+    public function pay(Model $user, $orderValue, array $allowedWallets = [], ?string $notes = null): void
     {
         $user->pay($orderValue, $allowedWallets, $notes);
     }
@@ -43,7 +45,7 @@ class PocketServices
      *
      * @return float|int
      */
-    public function checkBalance($user): float|int
+    public function checkBalance(Model $user): int|float
     {
         return $user->walletBalance;
     }
@@ -57,7 +59,7 @@ class PocketServices
      *
      * @return float|int
      */
-    public function walletBalanceByType($user, string $type): float|int
+    public function walletBalanceByType(Model $user, string $type): float|int
     {
         return $user->getWalletBalanceByType($type);
     }

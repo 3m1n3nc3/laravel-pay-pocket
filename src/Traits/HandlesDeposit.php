@@ -20,6 +20,7 @@ trait HandlesDeposit
      * @param ?string $notes
      *
      * @return bool
+     * @throws InvalidDepositException|InvalidValueException|InvalidWalletTypeException
      */
     public function deposit(string $type, int|float $amount, ?string $notes = null): bool
     {
@@ -58,14 +59,15 @@ trait HandlesDeposit
     }
 
     /**
-     * Check if the given tyep is valid.
+     * Check if the given type is valid.
      *
      * @var string $type
      * @var array $depositable
      *
      * @return bool
+     * @throws InvalidWalletTypeException
      */
-    private function isRequestValid($type, array $depositable)
+    private function isRequestValid($type, array $depositable): bool
     {
         if (! array_key_exists($type, $depositable)) {
             throw new InvalidWalletTypeException('Invalid deposit type.');
