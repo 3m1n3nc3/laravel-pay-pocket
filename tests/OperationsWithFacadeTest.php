@@ -122,7 +122,7 @@ test('description can be added during deposit', function () {
     $description = \Illuminate\Support\Str::random();
     $user->deposit($type, 234.56, $description);
 
-    expect(WalletsLog::where('detail', $description)->exists())->toBe(true);
+    expect(WalletsLog::where('notes', $description)->exists())->toBe(true);
 });
 
 test('description can be added during payment', function () {
@@ -134,5 +134,5 @@ test('description can be added during payment', function () {
     LaravelPayPocket::deposit($user, $type, 234.56);
     LaravelPayPocket::pay($user, 234.56, [$type], $description);
 
-    expect(WalletsLog::where('detail', $description)->exists())->toBe(true);
+    expect(WalletsLog::where('notes', $description)->exists())->toBe(true);
 });

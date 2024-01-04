@@ -17,11 +17,11 @@ trait HandlesDeposit
      *
      * @param string $type
      * @param int|float $amount
-     * @param ?string $detail
+     * @param ?string $notes
      *
      * @return bool
      */
-    public function deposit(string $type, int|float $amount, ?string $detail = null): bool
+    public function deposit(string $type, int|float $amount, ?string $notes = null): bool
     {
         $depositable = $this->getDepositableTypes();
 
@@ -33,10 +33,10 @@ trait HandlesDeposit
             throw new InvalidValueException();
         }
 
-        DB::transaction(function () use ($type, $amount, $detail) {
+        DB::transaction(function () use ($type, $amount, $notes) {
             $type = WalletEnums::tryFrom($type);
             $wallet = $this->wallets()->firstOrCreate(['type' => $type]);
-            $wallet->incrementAndCreateLog($amount, $detail);
+            $wallet->incrementAndCreateLog($amount, $notes);
         });
 
         return true;

@@ -107,7 +107,7 @@ If the balance in `wallet_1` is 10 and the balance in `wallet_2` is 20, and you 
 ### Deposit
 
 ```php
-deposit(type: 'wallet_1', amount: 123.45, detail: null)
+deposit(type: 'wallet_1', amount: 123.45, notes: null)
 ```
 
 Deposit funds into `wallet_1`
@@ -138,7 +138,7 @@ Note: `wallet_1` and `wallet_2` must already be defined in the `WalletEnums`.
 
 #### Transaction Info ([#8][i8])
 
-In a case where you want to enter descriptions for a particular transaction, the `$detail` param allows you to provide information about why a transaction happened.
+In a case where you want to enter descriptions for a particular transaction, the `$notes` param allows you to provide information about why a transaction happened.
 
 ```php
 $user = auth()->user();
@@ -148,7 +148,7 @@ $user->deposit('wallet_1', 67.89, 'You ordered pizza.');
 ### Pay
 
 ```php
-pay(amount: 12.34, allowedWallets: [], detail: null)
+pay(amount: 12.34, allowedWallets: [], notes: null)
 ```
 
 Pay the value using the total combined balance available across all allowed wallets
@@ -180,7 +180,7 @@ $user->pay(12.34, ['wallet_1']);
 
 #### Transaction Info ([#8][i8])
 
-In a case where you want to enter descriptions for a particular transaction, the `$detail` param allows you to provide information about why a transaction happened.
+In a case where you want to enter descriptions for a particular transaction, the `$note` param allows you to provide information about why a transaction happened.
 
 ```php
 $user = auth()->user();

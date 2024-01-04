@@ -10,13 +10,13 @@ class PocketServices
      * @param $user
      * @param string $type
      * @param int|float $amount
-     * @param ?string $detail
+     * @param ?string $notes
      *
      * @return bool
      */
-    public function deposit($user, string $type, int|float $amount, ?string $detail = null): bool
+    public function deposit($user, string $type, int|float $amount, ?string $notes = null): bool
     {
-        return $user->deposit($type, $amount, $detail);
+        return $user->deposit($type, $amount, $notes);
     }
 
     /**
@@ -25,14 +25,14 @@ class PocketServices
      * @param $user
      * @param int|float $orderValue
      * @param array $allowedWallets
-     * @param ?string $detail
+     * @param ?string $notes
      *
      * @return void
      * @throws InsufficientBalanceException
      */
-    public function pay($user, $orderValue, array $allowedWallets = [], ?string $detail = null): void
+    public function pay($user, $orderValue, array $allowedWallets = [], ?string $notes = null): void
     {
-        $user->pay($orderValue, $allowedWallets, $detail);
+        $user->pay($orderValue, $allowedWallets, $notes);
     }
 
     /**

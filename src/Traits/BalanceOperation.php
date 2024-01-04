@@ -22,13 +22,13 @@ trait BalanceOperation
      * Decrement Balance and create a log entry.
      *
      * @param int|float $value
-     * @param ?string $detail
+     * @param ?string $notes
      *
      * @return void
      */
-    public function decrementAndCreateLog($value, ?string $detail = null): void
+    public function decrementAndCreateLog($value, ?string $notes = null): void
     {
-        $this->createLog('dec', $value, $detail);
+        $this->createLog('dec', $value, $notes);
         $this->decrement('balance', $value);
     }
 
@@ -36,13 +36,13 @@ trait BalanceOperation
      * Increment Balance and create a log entry.
      *
      * @param int|float $value
-     * @param ?string $detail
+     * @param ?string $notes
      *
      * @return void
      */
-    public function incrementAndCreateLog($value, ?string $detail = null): void
+    public function incrementAndCreateLog($value, ?string $notes = null): void
     {
-        $this->createLog('inc', $value, $detail);
+        $this->createLog('inc', $value, $notes);
         $this->increment('balance', $value);
     }
 
@@ -51,11 +51,11 @@ trait BalanceOperation
      *
      * @param string $logType
      * @param int|float $value
-     * @param ?string $detail
+     * @param ?string $notes
      *
      * @return void
      */
-    protected function createLog($logType, $value, ?string $detail = null): void
+    protected function createLog($logType, $value, ?string $notes = null): void
     {
         $currentBalance = $this->balance ?? 0;
 
@@ -73,10 +73,10 @@ trait BalanceOperation
             'wallet_name' => $this->type->value,
             'from' => $currentBalance,
             'to' => $newBalance,
-            'type' => $logType,
             'ip' => \Request::ip(),
+            'type' => $logType,
             'value' => $value,
-            'detail' => $detail,
+            'notes' => $notes,
             'reference' => $reference
         ]);
 
