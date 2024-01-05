@@ -71,10 +71,6 @@ trait HasWallet
 
         $wallet = $this->wallets()->where('type', $walletType)->first();
 
-        if (! $wallet) {
-            throw new WalletNotFoundException("Wallet of type '{$walletType}' not found.");
-        }
-
-        return $wallet->balance;
+        return $wallet?->balance ?: 0.00;
     }
 }
